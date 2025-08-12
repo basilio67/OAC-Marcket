@@ -111,6 +111,44 @@ Pronto! O projeto estará funcionando com PostgreSQL.
 
 ---
 
+## Como preencher os dados do Web Service no Render
+
+1. **Nome:**  
+   Escolha um nome para o serviço (ex: `oac-market`).
+
+2. **Branch:**  
+   Selecione `main` (ou a branch principal do seu repositório).
+
+3. **Build Command:**  
+   ```
+   npm install
+   ```
+
+4. **Start Command:**  
+   ```
+   node server.js
+   ```
+
+5. **Root Directory:**  
+   Deixe em branco se o arquivo `server.js` está na raiz do projeto.  
+   (Se estiver em uma subpasta, informe o caminho relativo.)
+
+6. **Environment:**  
+   Escolha `Node`.
+
+7. **Configure as variáveis de ambiente:**  
+   - Clique em "Add Environment Variable" e adicione:
+     - `DB_NAME`
+     - `DB_USER`
+     - `DB_PASS`
+     - `DB_HOST`
+     - (Adicione outras se necessário, como `PORT`)
+
+8. **Clique em "Create Web Service"**  
+   O Render irá instalar as dependências, rodar o build e iniciar seu app.
+
+---
+
 ## Como subir o projeto ao GitHub
 
 1. **Crie um repositório novo no GitHub:**  
@@ -132,6 +170,59 @@ Pronto! O projeto estará funcionando com PostgreSQL.
 
 ---
 
+## Quais variáveis de ambiente adicionar no Render
+
+Adicione as seguintes variáveis de ambiente no painel do Render:
+
+- `DB_NAME` — Nome do banco de dados PostgreSQL (ex: `oacmarket`)
+- `DB_USER` — Usuário do banco de dados (ex: `postgres`)
+- `DB_PASS` — Senha do banco de dados
+- `DB_HOST` — Host do banco de dados (ex: `localhost` ou o endereço fornecido pelo Render PostgreSQL)
+- `PORT` — (opcional, mas recomendado) Porta para o servidor Node.js (ex: `10000` ou deixe em branco para usar a padrão do Render)
+
+Se estiver usando um banco PostgreSQL do próprio Render, use os dados fornecidos na tela de configuração do banco.
+
+---
+
 # Dica de segurança
 
 Nunca coloque usuário e senha do banco diretamente no código. Use sempre variáveis de ambiente!
+
+---
+
+## Como criar o banco de dados PostgreSQL no Render
+
+1. No painel do Render, clique em **"New +"** e escolha **"PostgreSQL"**.
+2. Dê um nome para o banco e clique em **"Create Database"**.
+3. Aguarde a criação. O Render mostrará as informações de conexão:
+   - **Database** (nome do banco)
+   - **User** (usuário)
+   - **Password** (senha)
+   - **Host** (host)
+   - **Port** (porta)
+4. Copie esses dados e use para preencher as variáveis de ambiente do seu Web Service:
+   - `DB_NAME` = Database
+   - `DB_USER` = User
+   - `DB_PASS` = Password
+   - `DB_HOST` = Host
+   - `PORT` = (opcional, pode deixar em branco ou usar o padrão do Render)
+
+**Importante:**  
+- Não compartilhe sua senha do banco.
+- Use sempre as variáveis de ambiente para manter seus dados seguros.
+
+---
+
+## Como fazer commit no Git
+
+1. **No terminal, dentro da pasta do projeto, execute:**
+   ```sh
+   git add .
+   git commit -m "Descreva aqui o que mudou, ex: adiciona páginas obrigatórias"
+   git push
+   ```
+   - O comando `git add .` adiciona todas as alterações.
+   - O comando `git commit -m "mensagem"` salva as alterações localmente com uma mensagem.
+   - O comando `git push` envia as alterações para o GitHub.
+
+2. **Repita sempre que fizer alterações no projeto.**

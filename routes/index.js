@@ -225,4 +225,15 @@ router.post('/produto/:id/excluir', requireSeller, async (req, res) => {
     res.redirect('/loja/' + loja.id);
 });
 
+// Páginas obrigatórias
+router.get('/sobre', (req, res) => {
+    res.render('sobre');
+});
+router.get('/contato', (req, res) => {
+    res.render('contato');
+});
+router.get('/privacidade', (req, res) => {
+    res.render('privacidade');
+});
+
 module.exports = router;
