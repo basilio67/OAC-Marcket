@@ -235,5 +235,14 @@ router.get('/contato', (req, res) => {
 router.get('/privacidade', (req, res) => {
     res.render('privacidade');
 });
+router.get('/artigos', (req, res) => {
+    res.render('artigos');
+});
+router.get('/dicas', (req, res) => {
+    res.render('dicas');
+});
+router.get('/novidades', (req, res) => {
+    res.render('novidades');
+});
 
 module.exports = router;
