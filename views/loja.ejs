@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= loja.nome %> - OAC Market</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f7fb;
+            margin: 0;
+            padding: 0;
+            color: #222;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+        h2, h3 {
+            margin-top: 0;
+            color: #2a7ae4;
+        }
+        nav ul {
+            padding: 0;
+            margin: 0 0 18px 0;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li {
+            display: inline;
+        }
+        nav a, .btn {
+            background: #2a7ae4;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+        nav a:hover, .btn:hover {
+            background: #195ca2;
+        }
+        .card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 0;
+            padding: 0;
+        }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: #eee;
+        }
+        .card strong {
+            font-size: 1.1em;
+            color: #2a7ae4;
+        }
+        .msg-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+        }
+        .msg-card {
+            background: #eaf1fb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.98em;
+            color: #222;
+        }
+        .msg-card small {
+            color: #888;
+            font-size: 0.85em;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 6px;
+            }
+            h2, h3 {
+                font-size: 1.1em;
+            }
+            nav a, .btn {
+                padding: 8px 10px;
+                font-size: 1em;
+            }
+            .card {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2><%= loja.nome %></h2>
+        <p><%= loja.descricao %></p>
+
+        <nav>
+            <ul>
+                <% if (loja && loja.id) { %>
+                    <li><a href="/loja/<%= loja.id %>/produto/criar" class="btn">Adicionar Produto</a></li>
+                    <li><a href="/loja/<%= loja.id %>/editar" class="btn">Editar Loja</a></li>
+                <% } %>
+                <li><a href="/" class="btn">Voltar ao início</a></li>
+            </ul>
+        </nav>
+
+        <h3>Produtos da Loja</h3>
+        <ul class="card-list">
+            <% produtos.forEach(function(produto) { %>
+                <li class="card">
+                    <% if (produto.imagem) { %>
+                        <img src="<%= produto.imagem %>" alt="Imagem do produto">
+                    <% } %>
+                    <strong><%= produto.nome %></strong>
+                    <span style="color:#195ca2;font-weight:500;">R$ <%= produto.preco %></span>
+                    <span><%= produto.descricao %></span>
+                    <form method="POST" action="/produto/<%= produto.id %>/excluir" style="margin-top:8px;">
+                        <button type="submit" class="btn" style="background:#e74c3c;">Excluir Produto</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+
+        <h3>Mensagens Recebidas</h3>
+        <ul class="msg-list">
+            <% mensagens.forEach(function(msg) { %>
+                <li class="msg-card">
+                    <strong><%= msg.autor %></strong>: <%= msg.texto %> <br>
+                    <small>(<%= msg.data.toLocaleString() %>)</small>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Produtos Públicos - OAC Market</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f6f7fb; margin: 0; padding: 0; color: #222; }
+        .container { max-width: 480px; margin: 0 auto; padding: 16px; }
+        h2 { color: #2a7ae4; margin-top: 0; }
+        .card-list { display: flex; flex-direction: column; gap: 16px; margin: 0; padding: 0; }
+        .card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+        .card img { max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 8px; background: #eee; }
+        .card strong { font-size: 1.1em; color: #2a7ae4; }
+        .btn { background: #2a7ae4; color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: 500; transition: background 0.2s; border: none; cursor: pointer; display: inline-block; margin-top: 8px; }
+        .btn:hover { background: #195ca2; }
+        .btn[disabled] { background: #ccc; cursor: not-allowed; }
+        a { color: #2a7ae4; text-decoration: none; margin-top: 12px; display: inline-block; }
+        @media (max-width: 600px) { .container { padding: 6px; } h2 { font-size: 1.1em; } .card { padding: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Todos os Produtos</h2>
+        <ul class="card-list">
+            <% produtos.forEach(function(produto) { %>
+                <li class="card">
+                    <% if (produto.imagem) { %>
+                        <img src="<%= produto.imagem %>" alt="Imagem do produto">
+                    <% } %>
+                    <strong><%= produto.nome %></strong>
+                    <span style="color:#195ca2;font-weight:500;">R$ <%= produto.preco %></span>
+                    <span><%= produto.descricao %></span>
+                    <span>Loja: <%= produto.loja ? produto.loja.nome : 'N/A' %></span>
+                    <% 
+                        var vendedor = produto.loja && produto.loja.vendedor;
+                        var whatsapp = vendedor && vendedor.whatsapp;
+                        var mensagem = encodeURIComponent('Olá, tenho interesse no produto "' + produto.nome + '" da loja "' + (produto.loja ? produto.loja.nome : '') + '".');
+                        var isWhatsappValid = whatsapp && whatsapp.replace(/\D/g,'').length >= 10;
+                    %>
+                    <% if (isWhatsappValid) { %>
+                        <a class="btn" target="_blank" href="https://wa.me/<%= whatsapp.replace(/\D/g,'') %>?text=<%= mensagem %>">
+                            Falar com o vendedor
+                        </a>
+                    <% } else { %>
+                        <button class="btn" disabled title="WhatsApp não disponível">WhatsApp não disponível</button>
+                    <% } %>
+                </li>
+            <% }) %>
+        </ul>
+        <a href="/" class="btn">Voltar</a>
+    </div>
+</body>
+</html>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Loja - OAC Market</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f6f7fb; margin: 0; padding: 0; color: #222; }
+        .container { max-width: 400px; margin: 0 auto; padding: 24px 16px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); margin-top: 32px; }
+        h2 { color: #2a7ae4; margin-top: 0; }
+        form { display: flex; flex-direction: column; gap: 12px; }
+        input, textarea { padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 1em; }
+        button { background: #2a7ae4; color: #fff; border: none; border-radius: 6px; padding: 10px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+        button:hover { background: #195ca2; }
+        a { color: #2a7ae4; text-decoration: none; margin-top: 12px; display: inline-block; }
+        @media (max-width: 600px) { .container { padding: 10px 4px; margin-top: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Editar Loja</h2>
+        <form method="POST" action="/loja/<%= loja.id %>/editar">
+            <input type="text" name="nome" placeholder="Nome da loja" required value="<%= loja.nome %>" />
+            <textarea name="descricao" placeholder="Descrição" required><%= loja.descricao %></textarea>
+            <button type="submit">Salvar Alterações</button>
+        </form>
+        <a href="/loja/<%= loja.id %>">Voltar</a>
+    </div>
+</body>
+</html>

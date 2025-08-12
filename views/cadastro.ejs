@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro - OAC Market</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f6f7fb; margin: 0; padding: 0; color: #222; }
+        .container { max-width: 400px; margin: 0 auto; padding: 24px 16px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); margin-top: 32px; }
+        h2 { color: #2a7ae4; margin-top: 0; }
+        form { display: flex; flex-direction: column; gap: 12px; }
+        input, select, textarea { padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 1em; }
+        button { background: #2a7ae4; color: #fff; border: none; border-radius: 6px; padding: 10px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+        button:hover { background: #195ca2; }
+        a { color: #2a7ae4; text-decoration: none; margin-top: 12px; display: inline-block; }
+        @media (max-width: 600px) { .container { padding: 10px 4px; margin-top: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro de Usuário</h2>
+        <% if (typeof erro !== 'undefined') { %>
+            <p style="color:red;"><%= erro %></p>
+        <% } %>
+        <form method="POST" action="/cadastro">
+            <input type="text" name="nome" placeholder="Nome" required />
+            <input type="email" name="email" placeholder="Email" required />
+            <input type="password" name="senha" placeholder="Senha" required />
+            <input type="text" name="whatsapp" placeholder="WhatsApp (inclua o código do país, ex: +258XXXXXXXXX)" pattern="^\+?\d{10,}$" title="Inclua o código do país, ex: +258XXXXXXXXX" />
+            <select name="tipo" required>
+                <option value="">Selecione o tipo</option>
+                <option value="vendedor">Vendedor</option>
+                <option value="comprador">Comprador</option>
+            </select>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <a href="/">Voltar</a>
+    </div>
+</body>
+</html>
