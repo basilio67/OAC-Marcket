@@ -65,6 +65,28 @@
             margin-top: 18px;
             display: block;
         }
+        nav {
+            width: 100%;
+            margin: 32px 0 16px 0;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav a {
+            color: #fff;
+            background: #2a7ae4;
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+            display: block;
+        }
         @media (max-width: 600px) {
             .container {
                 padding: 10px 4px;
@@ -78,6 +100,10 @@
             .btn {
                 padding: 8px 12px;
                 font-size: 1em;
+            }
+            nav a {
+                padding: 10px 24px;
+                font-size: 0.9em;
             }
         }
     </style>
@@ -100,11 +126,19 @@
                 <a href="/login" class="btn">Login</a>
             </li>
         </ul>
-        <div style="margin:32px 0 16px 0;text-align:center;">
-            <a href="/artigos" style="color:#fff;background:#2a7ae4;padding:10px 22px;border-radius:6px;margin:0 8px;text-decoration:none;display:inline-block;">Artigos</a>
-            <a href="/dicas" style="color:#fff;background:#2a7ae4;padding:10px 22px;border-radius:6px;margin:0 8px;text-decoration:none;display:inline-block;">Dicas</a>
-            <a href="/novidades" style="color:#fff;background:#2a7ae4;padding:10px 22px;border-radius:6px;margin:0 8px;text-decoration:none;display:inline-block;">Novidades</a>
-        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/artigos">Artigos</a>
+                </li>
+                <li>
+                    <a href="/dicas">Dicas</a>
+                </li>
+                <li>
+                    <a href="/novidades">Novidades</a>
+                </li>
+            </ul>
+        </nav>
         <div style="margin-top:32px;text-align:center;">
             <a href="/sobre" style="color:#2a7ae4;margin:0 10px;">Sobre</a> |
             <a href="/contato" style="color:#2a7ae4;margin:0 10px;">Contato</a> |
