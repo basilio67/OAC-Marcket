@@ -87,6 +87,37 @@
             box-shadow: 0 2px 8px rgba(44,62,80,0.08);
             display: block;
         }
+        .main-card {
+            background: linear-gradient(135deg, #eaf1fb 0%, #fff 100%);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(44,62,80,0.10);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 24px;
+            border: 1px solid #e3eaf3;
+        }
+        .main-card .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            align-items: center;
+            margin-top: 12px;
+        }
+        .main-card .btn {
+            width: 220px;
+            font-size: 1.15em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .main-card .icon {
+            font-size: 1.3em;
+        }
         @media (max-width: 600px) {
             .container {
                 padding: 10px 4px;
@@ -112,20 +143,14 @@
     <div class="container">
         <img src="/logo.png" alt="OAC Market" class="logo" />
         <h1>Bem-vindo ao OAC Market!</h1>
-        <ul class="card-list">
-            <li class="card">
-                <span>Veja todos os produtos disponíveis no marketplace.</span>
-                <a href="/produtos" class="btn">Ver todos os produtos</a>
-            </li>
-            <li class="card">
-                <span>Cadastre-se para criar sua loja ou comprar produtos.</span>
-                <a href="/cadastro" class="btn">Cadastro</a>
-            </li>
-            <li class="card">
-                <span>Já tem cadastro? Faça login para acessar sua loja ou comprar.</span>
-                <a href="/login" class="btn">Login</a>
-            </li>
-        </ul>
+        <div class="main-card">
+            <span style="font-size:1.15em;color:#195ca2;font-weight:500;margin-bottom:8px;">Acesse rapidamente:</span>
+            <div class="btn-group">
+                <a href="/produtos" class="btn"><span class="icon">🛒</span> Ver todos os produtos</a>
+                <a href="/cadastro" class="btn"><span class="icon">📝</span> Cadastro</a>
+                <a href="/login" class="btn"><span class="icon">🔑</span> Login</a>
+            </div>
+        </div>
         <nav>
             <ul>
                 <li>
