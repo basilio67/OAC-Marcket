@@ -6,17 +6,25 @@ const Product = require('../models/Product');
 const sequelize = require('../models/index');
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // Sincronize os modelos com o banco de dados
 sequelize.sync({ alter: true });
 
-// Configuração do multer para upload de imagens
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../public/uploads'));
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
+// Configuração do Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// Storage para uploads no Cloudinary
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'produtos_oacmarket',
+        allowed_formats: ['jpg', 'jpeg', 'png']
     }
 });
 const upload = multer({ storage: storage });
@@ -145,7 +153,7 @@ router.post('/loja/:id/produto/criar', requireSeller, upload.single('imagem'), a
         return res.redirect('/');
     }
     const { nome, descricao, preco } = req.body;
-    const imagem = req.file ? '/uploads/' + req.file.filename : '';
+    const imagem = req.file ? req.file.path : '';
     await Product.create({
         nome,
         descricao,

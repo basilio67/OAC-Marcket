@@ -307,3 +307,35 @@ Nunca coloque usuário e senha do banco diretamente no código. Use sempre vari�
 
 **Resumo:**  
 Seu site já possui todas as páginas obrigatórias e recomendadas para aprovação no Google AdSense.
+
+---
+
+## Como usar o site OAC Market
+
+1. **Acesse a página inicial:**  
+   - Entre em [https://oac-marcket.onrender.com](https://oac-marcket.onrender.com)
+
+2. **Para comprar produtos:**  
+   - Clique em "Ver todos os produtos".
+   - Navegue pela lista e, se quiser falar com o vendedor, clique no botão WhatsApp do produto.
+
+3. **Para criar uma loja e vender:**  
+   - Clique em "Cadastro" e preencha seus dados como vendedor.
+   - Faça login.
+   - Crie sua loja e cadastre seus produtos (com imagem).
+
+4. **Para editar sua loja ou produtos:**  
+   - Após login, acesse sua loja.
+   - Use os botões "Editar Loja" ou "Adicionar Produto".
+
+5. **Para dúvidas ou suporte:**  
+   - Use a página "Contato" para enviar e-mail para o suporte.
+
+6. **Para informações legais:**  
+   - Consulte as páginas "Sobre", "Política de Privacidade" e "Termos de Uso" no rodapé.
+
+---
+
+**Dica:**  
+O site funciona em celulares e computadores.  
+Se tiver problemas, envie sua dúvida pela página de contato.
