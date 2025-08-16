@@ -152,16 +152,20 @@ router.post('/loja/:id/produto/criar', requireSeller, upload.single('imagem'), a
     if (!loja || loja.vendedorId !== req.session.userId) {
         return res.redirect('/');
     }
-    const { nome, descricao, preco } = req.body;
-    const imagem = req.file ? req.file.path : '';
-    await Product.create({
-        nome,
-        descricao,
-        preco,
-        lojaId: loja.id,
-        imagem
-    });
-    res.redirect('/loja/' + loja.id);
+    try {
+        const { nome, descricao, preco } = req.body;
+        const imagem = req.file ? req.file.path : '';
+        await Product.create({
+            nome,
+            descricao,
+            preco,
+            lojaId: loja.id,
+            imagem
+        });
+        res.redirect('/loja/' + loja.id);
+    } catch (err) {
+        res.render('criar_produto', { loja, erro: 'Erro ao cadastrar produto: ' + err.message });
+    }
 });
 
 // Página pública de todos os produtos

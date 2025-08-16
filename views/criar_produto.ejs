@@ -18,6 +18,9 @@
 <body>
     <div class="container">
         <h2>Criar Produto para <%= loja.nome %></h2>
+        <% if (typeof erro !== 'undefined') { %>
+            <p style="color:red;"><%= erro %></p>
+        <% } %>
         <form method="POST" action="/loja/<%= loja.id %>/produto/criar" enctype="multipart/form-data">
             <input type="text" name="nome" placeholder="Nome do produto" required />
             <textarea name="descricao" placeholder="Descrição" required></textarea>
