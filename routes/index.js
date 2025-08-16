@@ -244,5 +244,8 @@ router.get('/dicas', (req, res) => {
 router.get('/novidades', (req, res) => {
     res.render('novidades');
 });
+router.get('/termos', (req, res) => {
+    res.render('termos');
+});
 
 module.exports = router;

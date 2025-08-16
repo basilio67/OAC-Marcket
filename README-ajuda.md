@@ -226,3 +226,84 @@ Nunca coloque usuário e senha do banco diretamente no código. Use sempre vari�
    - O comando `git push` envia as alterações para o GitHub.
 
 2. **Repita sempre que fizer alterações no projeto.**
+
+---
+
+## Requisitos para ser aprovado pelo Google AdSense
+
+1. **Páginas obrigatórias:**  
+   - Sobre  
+   - Contato  
+   - Política de Privacidade  
+   - Termos de Uso (recomendado)
+
+2. **Conteúdo original e útil:**  
+   - Tenha artigos, dicas, novidades ou outros conteúdos relevantes.
+   - Evite páginas vazias ou com pouco texto.
+
+3. **Navegação clara:**  
+   - Menu visível para todas as páginas principais.
+   - Links funcionais e sem erros.
+
+4. **Layout responsivo:**  
+   - O site deve funcionar bem em celulares e computadores.
+
+5. **Domínio próprio:**  
+   - Use um domínio personalizado (ex: www.seusite.com).
+   - Evite subdomínios gratuitos.
+
+6. **Sem conteúdo proibido:**  
+   - Não tenha conteúdo adulto, pirataria, violência, etc.
+
+7. **Sem erros técnicos:**  
+   - Todas as páginas devem abrir corretamente.
+   - Evite links quebrados e imagens que não carregam.
+
+8. **Política de cookies (se usar cookies):**  
+   - Informe ao usuário sobre o uso de cookies.
+
+9. **Tráfego real:**  
+   - O site deve ter visitantes reais e não ser recém-criado só para AdSense.
+
+10. **Contato válido:**  
+    - Informe e-mail ou formulário de contato funcional.
+
+---
+
+## Páginas necessárias para aprovação no Google AdSense
+
+**Obrigatórias:**
+- Sobre
+- Contato
+- Política de Privacidade
+- Termos de Uso
+
+**Recomendadas para conteúdo:**
+- Artigos
+- Dicas
+- Novidades
+
+---
+
+## Páginas que o seu site já possui
+
+- Sobre (`/sobre`)
+- Contato (`/contato`)
+- Política de Privacidade (`/privacidade`)
+- Termos de Uso (`/termos`)
+- Artigos (`/artigos`)
+- Dicas (`/dicas`)
+- Novidades (`/novidades`)
+- Home (`/`)
+- Cadastro (`/cadastro`)
+- Login (`/login`)
+- Produtos Públicos (`/produtos`)
+- Loja (vendedor) (`/loja/:id`)
+- Criar Loja (`/loja/criar`)
+- Criar Produto (`/loja/:id/produto/criar`)
+- Editar Loja (`/loja/:id/editar`)
+
+---
+
+**Resumo:**  
+Seu site já possui todas as páginas obrigatórias e recomendadas para aprovação no Google AdSense.
