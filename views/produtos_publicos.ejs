@@ -25,7 +25,7 @@
             <% produtos.forEach(function(produto) { %>
                 <li class="card">
                     <% if (produto.imagem) { %>
-                        <img src="<%= produto.imagem.startsWith('/') ? produto.imagem : '/' + produto.imagem %>" alt="Imagem do produto">
+                        <img src="<%= produto.imagem %>" alt="Imagem do produto">
                     <% } %>
                     <strong><%= produto.nome %></strong>
                     <span style="color:#195ca2;font-weight:500;">R$ <%= produto.preco %></span>
