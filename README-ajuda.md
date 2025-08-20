@@ -339,3 +339,13 @@ Seu site já possui todas as páginas obrigatórias e recomendadas para aprovaç
 **Dica:**  
 O site funciona em celulares e computadores.  
 Se tiver problemas, envie sua dúvida pela página de contato.
+
+---
+
+## Como abrir a aba de logs no Render
+
+1. Acesse o painel do seu serviço no [Render](https://dashboard.render.com/).
+2. Clique no nome do seu serviço (ex: `oac-marcket`).
+3. No menu lateral, clique em **"Logs"**.
+4. Veja as mensagens de erro, avisos e informações do servidor em tempo real.
+5. Use os logs para identificar problemas (ex: erro 500, problemas de upload, variáveis de ambiente faltando).

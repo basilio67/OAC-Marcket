@@ -164,6 +164,7 @@ router.post('/loja/:id/produto/criar', requireSeller, upload.single('imagem'), a
         });
         res.redirect('/loja/' + loja.id);
     } catch (err) {
+        console.error('Erro ao cadastrar produto:', err); // Adicionado log detalhado
         res.render('criar_produto', { loja, erro: 'Erro ao cadastrar produto: ' + err.message });
     }
 });
