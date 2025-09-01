@@ -8,7 +8,7 @@ const dbHost = process.env.DB_HOST || 'ep-rough-wildflower-a2awxjsg-pooler.eu-ce
 
 const sequelize = new Sequelize(dbName, dbUser, dbPass, {
   host: dbHost,
-  dialect: 'postgres'
+  dialect: 'postgre',
   dialectOptions: {
         ssl: {
               require: true,
