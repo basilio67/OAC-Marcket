@@ -13,21 +13,12 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
 
-const sessionOptions = {
     secret: 'oacmarketsecret',
     resave: false,
     saveUninitialized: false,
-};
-
-if (process.env.NODE_ENV === 'production') {
-    sessionOptions.cookie = {
-        sameSite: 'lax',
-        secure: true
-    };
-}
-
-app.use(session(sessionOptions));
+}));
 
 // Rotas
 app.use('/', routes);
