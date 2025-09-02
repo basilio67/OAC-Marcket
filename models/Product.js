@@ -17,6 +17,10 @@ const Product = sequelize.define('Product', {
   },
   imagem: {
     type: DataTypes.STRING
+  },
+  destaque: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 });
 

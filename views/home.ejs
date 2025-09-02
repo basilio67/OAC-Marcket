@@ -118,6 +118,44 @@
         .main-card .icon {
             font-size: 1.3em;
         }
+        .carousel-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto 24px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+            padding: 18px;
+        }
+        .carousel {
+            position: relative;
+            height: 260px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-item {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            transition: opacity 0.5s;
+            opacity: 0;
+        }
+        .carousel-item.active {
+            display: flex;
+            opacity: 1;
+            position: relative;
+        }
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 10px;
+        }
         @media (max-width: 600px) {
             .container {
                 padding: 10px 4px;
@@ -143,6 +181,30 @@
     <div class="container">
         <img src="/logo.png" alt="OAC Market" class="logo" />
         <h1>Bem-vindo ao OAC Market!</h1>
+        <% if (produtosDestaque && produtosDestaque.length > 0) { %>
+            <div class="carousel-container">
+                <h2 style="color:#2a7ae4;">Produtos em Destaque</h2>
+                <div class="carousel" id="carousel">
+                    <% produtosDestaque.forEach(function(produto, idx) { %>
+                        <div class="carousel-item<%= idx === 0 ? ' active' : '' %>">
+                            <% if (produto.imagem) { %>
+                                <img src="<%= produto.imagem %>" alt="Imagem do produto" style="max-width:220px;border-radius:10px;">
+                            <% } %>
+                            <div style="margin-top:8px;">
+                                <strong style="color:#2a7ae4;"><%= produto.nome %></strong><br>
+                                <span style="color:#195ca2;font-weight:500;">R$ <%= produto.preco %></span><br>
+                                <span><%= produto.descricao %></span><br>
+                                <span style="font-size:0.95em;color:#888;">Loja: <%= produto.loja ? produto.loja.nome : 'N/A' %></span>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+                <div class="carousel-controls">
+                    <button id="prevBtn" class="btn" style="background:#2a7ae4;">&#8592;</button>
+                    <button id="nextBtn" class="btn" style="background:#2a7ae4;">&#8594;</button>
+                </div>
+            </div>
+        <% } %>
         <div class="main-card">
             <span style="font-size:1.15em;color:#195ca2;font-weight:500;margin-bottom:8px;">Acesse rapidamente:</span>
             <div class="btn-group">
@@ -171,5 +233,28 @@
             <a href="/termos" style="color:#2a7ae4;margin:0 10px;">Termos de Uso</a>
         </div>
     </div>
+    <script>
+        // Carrossel simples em JS
+        window.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('.carousel-item');
+            if (items.length === 0) return;
+            let current = 0;
+            function showItem(idx) {
+                items.forEach((el, i) => el.classList.toggle('active', i === idx));
+            }
+            document.getElementById('prevBtn').onclick = function() {
+                current = (current - 1 + items.length) % items.length;
+                showItem(current);
+            };
+            document.getElementById('nextBtn').onclick = function() {
+                current = (current + 1) % items.length;
+                showItem(current);
+            };
+            setInterval(() => {
+                current = (current + 1) % items.length;
+                showItem(current);
+            }, 4000);
+        });
+    </script>
 </body>
 </html>

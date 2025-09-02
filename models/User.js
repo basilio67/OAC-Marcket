@@ -22,6 +22,10 @@ const User = sequelize.define('User', {
   whatsapp: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 });
 

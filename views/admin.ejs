@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Painel do Administrador - OAC Market</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f6f7fb; margin: 0; padding: 0; color: #222; }
+        .container { max-width: 600px; margin: 0 auto; padding: 24px 16px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); margin-top: 32px; }
+        h2 { color: #2a7ae4; margin-top: 0; }
+        .card-list { display: flex; flex-direction: column; gap: 16px; margin: 0; padding: 0; }
+        .card { background: #eaf1fb; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+        .card img { max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 8px; background: #eee; }
+        .card strong { font-size: 1.1em; color: #2a7ae4; }
+        .btn { background: #2a7ae4; color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: 500; transition: background 0.2s; border: none; cursor: pointer; display: inline-block; margin-top: 8px; }
+        .btn:hover { background: #195ca2; }
+        .btn-remove { background: #f39c12; }
+        .btn-remove:hover { background: #c87f0a; }
+        .btn-destaque { background: #27ae60; }
+        .btn-destaque:hover { background: #1e8449; }
+        a { color: #2a7ae4; text-decoration: none; margin-top: 12px; display: inline-block; }
+        @media (max-width: 600px) { .container { padding: 10px 4px; margin-top: 10px; } .card { padding: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Painel do Administrador</h2>
+        <% if (produtos.length === 0) { %>
+            <p style="color:#888;">Nenhum produto cadastrado ainda.</p>
+        <% } else { %>
+            <ul class="card-list">
+                <% produtos.forEach(function(produto) { %>
+                    <li class="card">
+                        <% if (produto.imagem) { %>
+                            <img src="<%= produto.imagem %>" alt="Imagem do produto">
+                        <% } %>
+                        <strong><%= produto.nome %></strong>
+                        <span style="color:#195ca2;font-weight:500;">R$ <%= produto.preco %></span>
+                        <span><%= produto.descricao %></span>
+                        <span>Loja: <%= produto.loja ? produto.loja.nome : 'N/A' %></span>
+                        <span>Vendedor: <%= produto.loja && produto.loja.vendedor ? produto.loja.vendedor.nome : 'N/A' %></span>
+                        <% if (produto.destaque) { %>
+                            <form method="POST" action="/produto/<%= produto.id %>/remover-destaque">
+                                <button type="submit" class="btn btn-remove">Remover Destaque</button>
+                            </form>
+                        <% } else { %>
+                            <form method="POST" action="/produto/<%= produto.id %>/destaque">
+                                <button type="submit" class="btn btn-destaque">Destacar Produto</button>
+                            </form>
+                        <% } %>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } %>
+        <a href="/" class="btn">Voltar ao início</a>
+    </div>
+</body>
+</html>

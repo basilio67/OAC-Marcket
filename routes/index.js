@@ -39,9 +39,29 @@ async function requireSeller(req, res, next) {
     }
 }
 
+// Middleware para verificar se é administrador
+async function requireAdmin(req, res, next) {
+    const user = await User.findByPk(req.session.userId);
+    if (user && user.isAdmin) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+}
+
 // Página inicial
-router.get('/', (req, res) => {
-    res.render('home');
+router.get('/', async (req, res) => {
+    const produtosDestaque = await Product.findAll({
+        where: { destaque: true },
+        include: [
+            {
+                model: Store,
+                as: 'loja'
+            }
+        ],
+        limit: 10
+    });
+    res.render('home', { produtosDestaque });
 });
 
 // Cadastro de usuário
@@ -69,6 +89,10 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ where: { email, senha } });
     if (user) {
         req.session.userId = user.id;
+        if (user.isAdmin) {
+            // Redireciona para o painel do administrador
+            return res.redirect('/admin');
+        }
         if (user.tipo === 'vendedor') {
             // Busca loja do vendedor
             const loja = await Store.findOne({ where: { vendedorId: user.id } });
@@ -236,6 +260,43 @@ router.post('/produto/:id/excluir', requireSeller, async (req, res) => {
     }
     await produto.destroy();
     res.redirect('/loja/' + loja.id);
+});
+
+// Página do administrador - listar todos os produtos e destacar/remover destaque
+router.get('/admin', requireAdmin, async (req, res) => {
+    const produtos = await Product.findAll({
+        include: [
+            {
+                model: Store,
+                as: 'loja',
+                include: [
+                    {
+                        model: User,
+                        as: 'vendedor'
+                    }
+                ]
+            }
+        ]
+    });
+    res.render('admin', { produtos });
+});
+
+// Destacar produto (POST) - apenas admin
+router.post('/produto/:id/destaque', requireAdmin, async (req, res) => {
+    const produto = await Product.findByPk(req.params.id);
+    if (!produto) return res.redirect('/admin');
+    produto.destaque = true;
+    await produto.save();
+    res.redirect('/admin');
+});
+
+// Remover destaque (POST) - apenas admin
+router.post('/produto/:id/remover-destaque', requireAdmin, async (req, res) => {
+    const produto = await Product.findByPk(req.params.id);
+    if (!produto) return res.redirect('/admin');
+    produto.destaque = false;
+    await produto.save();
+    res.redirect('/admin');
 });
 
 // Páginas obrigatórias

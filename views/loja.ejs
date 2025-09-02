@@ -73,24 +73,6 @@
             font-size: 1.1em;
             color: #2a7ae4;
         }
-        .msg-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 0;
-            padding: 0;
-        }
-        .msg-card {
-            background: #eaf1fb;
-            border-radius: 8px;
-            padding: 10px 12px;
-            font-size: 0.98em;
-            color: #222;
-        }
-        .msg-card small {
-            color: #888;
-            font-size: 0.85em;
-        }
         @media (max-width: 600px) {
             .container {
                 padding: 6px;
@@ -139,6 +121,24 @@
                 </li>
             <% }) %>
         </ul>
+    </div>
+</body>
+</html>
+        <ul class="card-list">
+            <% produtos.forEach(function(produto) { %>
+                <li class="card">
+                    <% if (produto.imagem) { %>
+                        <img src="<%= produto.imagem %>" alt="Imagem do produto">
+                    <% } %>
+                    <strong><%= produto.nome %></strong>
+                    <span style="color:#195ca2;font-weight:500;">R$ <%= produto.preco %></span>
+                    <span><%= produto.descricao %></span>
+                    <form method="POST" action="/produto/<%= produto.id %>/excluir" style="margin-top:8px;">
+                        <button type="submit" class="btn" style="background:#e74c3c;">Excluir Produto</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
 
         <h3>Mensagens Recebidas</h3>
         <ul class="msg-list">
@@ -152,3 +152,4 @@
     </div>
 </body>
 </html>
+
