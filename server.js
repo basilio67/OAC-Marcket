@@ -22,7 +22,7 @@ const sessionOptions = {
 
 if (process.env.NODE_ENV === 'production') {
     sessionOptions.cookie = {
-        sameSite: 'none',
+        sameSite: 'lax',
         secure: true
     };
 }

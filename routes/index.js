@@ -103,9 +103,10 @@ router.post('/login', async (req, res) => {
                 // Redireciona para criar loja
                 return res.redirect('/loja/criar');
             }
+        } else {
+            // Comprador vai para a lista de produtos
+            return res.redirect('/produtos');
         }
-        // Comprador vai para a lista de produtos
-        return res.redirect('/produtos');
     } else {
         res.render('login', { erro: 'Usuário ou senha inválidos.' });
     }
@@ -321,5 +322,4 @@ router.get('/termos', (req, res) => {
     res.render('termos');
 });
 
-module.exports = router;
 module.exports = router;
