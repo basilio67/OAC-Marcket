@@ -22,9 +22,10 @@ const User = require('./models/User');
       senha: 'basilio@1234',
       whatsapp: '+258842168220'
     });
-    console.log('Admin atualizado!');
+    await admin.reload(); // Garante que os dados estejam atualizados
+    console.log('Admin atualizado!', admin.dataValues); // Mostra o valor atualizado
   } else {
-    console.log('Admin criado!');
+    console.log('Admin criado!', admin.dataValues);
   }
 
   process.exit();
