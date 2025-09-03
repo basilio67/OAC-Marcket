@@ -11,7 +11,7 @@ const User = require('./models/User');
       nome: 'Administrador',
       senha: 'basilio@1234',
       tipo: 'vendedor',
-      whatsapp: '',
+      whatsapp: '+258842168220',
       isAdmin: true
     }
   });
