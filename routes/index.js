@@ -88,6 +88,7 @@ router.post('/login', async (req, res) => {
     const { email, senha } = req.body;
     const user = await User.findOne({ where: { email, senha } });
     if (user) {
+        console.log('isAdmin:', user.isAdmin); // Mostra o valor no terminal
         req.session.userId = user.id;
         if (user.isAdmin) {
             // Redireciona para o painel do administrador
