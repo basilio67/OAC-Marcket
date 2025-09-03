@@ -6,7 +6,7 @@ const User = require('./models/User');
 
   // Atualiza ou cria o admin
   const [admin, created] = await User.findOrCreate({
-    where: { email: 'zilysmith372@gmail.com' },
+    where: { email: 'zilysmith23@gmail.com' },
     defaults: {
       nome: 'Administrador',
       senha: 'basilio@1234',
