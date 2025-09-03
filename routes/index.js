@@ -75,7 +75,7 @@ router.post('/cadastro', async (req, res) => {
         await User.create({ nome, email, senha, tipo, whatsapp });
         res.redirect('/login');
     } catch (err) {
-        res.render('cadastro', { erro: 'Erro ao cadastrar. Tente novamente.' });
+        res.render('cadastro', { erro: 'Ops! 😅 Não foi possível concluir seu cadastro. Por favor, confira os dados e tente novamente.' });
     }
 });
 
@@ -108,7 +108,7 @@ router.post('/login', async (req, res) => {
             return res.redirect('/produtos');
         }
     } else {
-        res.render('login', { erro: 'Usuário ou senha inválidos.' });
+        res.render('login', { erro: 'Ops! 😅 Não encontramos sua conta ou a senha está incorreta. Confira os dados e tente novamente!' });
     }
 });
 
@@ -179,6 +179,12 @@ router.post('/loja/:id/produto/criar', requireSeller, upload.single('imagem'), a
     try {
         const { nome, descricao, preco } = req.body;
         const imagem = req.file ? req.file.path : '';
+
+        // Verifica se o arquivo existe e se o formato é permitido
+        if (req.file && !['image/jpeg', 'image/png', 'image/jpg'].includes(req.file.mimetype)) {
+            return res.render('criar_produto', { loja, erro: 'Olá! 😁 O formato da imagem não é suportado. Por favor, envie uma imagem JPG ou PNG para que possamos mostrar seu produto com qualidade!' });
+        }
+
         await Product.create({
             nome,
             descricao,
@@ -188,8 +194,8 @@ router.post('/loja/:id/produto/criar', requireSeller, upload.single('imagem'), a
         });
         res.redirect('/loja/' + loja.id);
     } catch (err) {
-        console.error('Erro ao cadastrar produto:', err); // Adicionado log detalhado
-        res.render('criar_produto', { loja, erro: 'Erro ao cadastrar produto: ' + err.message });
+        console.error('Erro ao cadastrar produto:', err);
+        res.render('criar_produto', { loja, erro: 'Poxa! 😔 Não conseguimos cadastrar seu produto agora. Tente novamente em instantes ou confira os dados informados.' });
     }
 });
 
