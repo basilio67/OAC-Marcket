@@ -79,13 +79,18 @@
         }
         nav a {
             color: #fff;
-            background: #2a7ae4;
+            /* Novo gradiente só para os botões do menu inferior */
+            background: linear-gradient(135deg, #a18fff 0%, #7e57c2 100%);
             padding: 12px 32px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             box-shadow: 0 2px 8px rgba(44,62,80,0.08);
             display: block;
+            transition: background 0.2s;
+        }
+        nav a:hover {
+            background: linear-gradient(135deg, #7e57c2 0%, #2a7ae4 100%);
         }
         .main-card {
             background: linear-gradient(135deg, #eaf1fb 0%, #fff 100%);
