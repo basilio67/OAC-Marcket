@@ -71,7 +71,7 @@
                                 <li style="margin-bottom:6px;">
                                     <span style="font-weight:600;color:#2a7ae4;"><%= comentario.autor %></span>
                                     <span style="color:#444;">: <%= comentario.texto %></span>
-                                    <small style="color:#aaa;">(<%= comentario.data.toLocaleString() %>)</small>
+                                    <small style="color:#aaa;">(<%= comentario.createdAt ? new Date(comentario.createdAt).toLocaleString() : '' %>)</small>
                                 </li>
                             <% }) %>
                         </ul>
