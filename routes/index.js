@@ -51,8 +51,9 @@ async function requireAdmin(req, res, next) {
 
 // Página inicial
 router.get('/', async (req, res) => {
-    const produtosDestaque = await Product.findAll({
-        where: { destaque: true },
+    // Busca os 10 produtos mais recentes
+    const produtosRecentes = await Product.findAll({
+        order: [['createdAt', 'DESC']],
         include: [
             {
                 model: Store,
@@ -61,7 +62,7 @@ router.get('/', async (req, res) => {
         ],
         limit: 10
     });
-    res.render('home', { produtosDestaque });
+    res.render('home', { produtosRecentes });
 });
 
 // Cadastro de usuário

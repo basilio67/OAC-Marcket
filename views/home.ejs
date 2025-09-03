@@ -181,11 +181,11 @@
     <div class="container">
         <img src="/logo.png" alt="OAC Market" class="logo" />
         <h1>Bem-vindo ao OAC Market!</h1>
-        <% if (produtosDestaque && produtosDestaque.length > 0) { %>
+        <% if (produtosRecentes && produtosRecentes.length > 0) { %>
             <div class="carousel-container">
-                <h2 style="color:#2a7ae4;">Produtos em Destaque</h2>
+                <h2 style="color:#2a7ae4;">Novidades</h2>
                 <div class="carousel" id="carousel">
-                    <% produtosDestaque.forEach(function(produto, idx) { %>
+                    <% produtosRecentes.forEach(function(produto, idx) { %>
                         <div class="carousel-item<%= idx === 0 ? ' active' : '' %>">
                             <% if (produto.imagem) { %>
                                 <img src="<%= produto.imagem %>" alt="Imagem do produto" style="max-width:220px;border-radius:10px;">
