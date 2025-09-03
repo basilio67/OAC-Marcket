@@ -76,12 +76,10 @@ router.get('/', getUserLikeId, async (req, res) => {
         ],
         limit: 10
     });
-    // Adiciona info de curtidas
     const likeId = req.cookies.likeId;
     produtosRecentes.forEach(produto => {
-        const set = curtidas[produto.id] || new Set();
-        produto.dataValues.curtidas = set.size;
-        produto.dataValues.curtido = set.has(likeId);
+        produto.dataValues.curtidas = produto.curtidas || 0;
+        produto.dataValues.curtido = produto._curtidasSet && produto._curtidasSet.has(likeId);
     });
     res.render('home', { produtosRecentes });
 });
@@ -238,12 +236,10 @@ router.get('/produtos', getUserLikeId, async (req, res) => {
             }
         ]
     });
-    // Adiciona info de curtidas
     const likeId = req.cookies.likeId;
     produtos.forEach(produto => {
-        const set = curtidas[produto.id] || new Set();
-        produto.dataValues.curtidas = set.size;
-        produto.dataValues.curtido = set.has(likeId);
+        produto.dataValues.curtidas = produto.curtidas || 0;
+        produto.dataValues.curtido = produto._curtidasSet && produto._curtidasSet.has(likeId);
     });
     res.render('produtos_publicos', { produtos });
 });
@@ -336,20 +332,34 @@ router.post('/produto/:id/remover-destaque', requireAdmin, async (req, res) => {
 });
 
 // Curtir produto
-router.post('/produto/:id/curtir', getUserLikeId, (req, res) => {
+router.post('/produto/:id/curtir', getUserLikeId, async (req, res) => {
     const produtoId = req.params.id;
     const likeId = req.cookies.likeId;
-    if (!curtidas[produtoId]) curtidas[produtoId] = new Set();
-    curtidas[produtoId].add(likeId);
-    res.json({ ok: true, curtidas: curtidas[produtoId].size });
+    const produto = await Product.findByPk(produtoId);
+    if (!produto) return res.json({ ok: false });
+    // Controle por cookie em memória (opcional, para evitar múltiplos likes do mesmo visitante)
+    if (!produto._curtidasSet) produto._curtidasSet = new Set();
+    if (!produto._curtidasSet.has(likeId)) {
+        produto._curtidasSet.add(likeId);
+        produto.curtidas += 1;
+        await produto.save();
+    }
+    res.json({ ok: true, curtidas: produto.curtidas });
 });
 
 // Descurtir produto
-router.post('/produto/:id/descurtir', getUserLikeId, (req, res) => {
+router.post('/produto/:id/descurtir', getUserLikeId, async (req, res) => {
     const produtoId = req.params.id;
     const likeId = req.cookies.likeId;
-    if (curtidas[produtoId]) curtidas[produtoId].delete(likeId);
-    res.json({ ok: true, curtidas: curtidas[produtoId] ? curtidas[produtoId].size : 0 });
+    const produto = await Product.findByPk(produtoId);
+    if (!produto) return res.json({ ok: false });
+    if (!produto._curtidasSet) produto._curtidasSet = new Set();
+    if (produto._curtidasSet.has(likeId) && produto.curtidas > 0) {
+        produto._curtidasSet.delete(likeId);
+        produto.curtidas -= 1;
+        await produto.save();
+    }
+    res.json({ ok: true, curtidas: produto.curtidas });
 });
 
 // Páginas obrigatórias

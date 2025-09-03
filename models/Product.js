@@ -21,6 +21,10 @@ const Product = sequelize.define('Product', {
   destaque: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  curtidas: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   }
 });
 
