@@ -64,6 +64,23 @@
                     <% } else { %>
                         <button class="btn" disabled title="WhatsApp não disponível">WhatsApp não disponível</button>
                     <% } %>
+                    <div style="margin-top:12px;">
+                        <strong style="color:#7e57c2;">Comentários</strong>
+                        <ul style="list-style:none;padding:0;margin:8px 0;">
+                            <% (produto.comentarios || []).slice(-5).reverse().forEach(function(comentario) { %>
+                                <li style="margin-bottom:6px;">
+                                    <span style="font-weight:600;color:#2a7ae4;"><%= comentario.autor %></span>
+                                    <span style="color:#444;">: <%= comentario.texto %></span>
+                                    <small style="color:#aaa;">(<%= comentario.data.toLocaleString() %>)</small>
+                                </li>
+                            <% }) %>
+                        </ul>
+                        <form method="POST" action="/produto/<%= produto.id %>/comentar" style="display:flex;gap:6px;align-items:center;">
+                            <input type="text" name="autor" placeholder="Seu nome" style="padding:6px;border-radius:6px;border:1px solid #ccc;width:90px;">
+                            <input type="text" name="texto" placeholder="Comentário..." required style="flex:1;padding:6px;border-radius:6px;border:1px solid #ccc;">
+                            <button type="submit" class="btn" style="padding:6px 12px;font-size:0.95em;">Enviar</button>
+                        </form>
+                    </div>
                 </li>
             <% }) %>
         </ul>

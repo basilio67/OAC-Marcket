@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const Store = require('../models/Store');
 const Product = require('../models/Product');
+const Comment = require('../models/Comment');
 const sequelize = require('../models/index');
 const multer = require('multer');
 const path = require('path');
@@ -220,7 +221,19 @@ router.post('/loja/:id/produto/criar', requireSeller, upload.single('imagem'), a
     }
 });
 
-// Página pública de todos os produtos
+// Adicionar comentário (POST)
+router.post('/produto/:id/comentar', async (req, res) => {
+    const produtoId = req.params.id;
+    const { autor, texto } = req.body;
+    await Comment.create({
+        produtoId,
+        autor: autor || 'Anônimo',
+        texto
+    });
+    res.redirect('back');
+});
+
+// Página pública de todos os produtos (envia comentários do banco)
 router.get('/produtos', getUserLikeId, async (req, res) => {
     const produtos = await Product.findAll({
         include: [
@@ -233,6 +246,10 @@ router.get('/produtos', getUserLikeId, async (req, res) => {
                         as: 'vendedor'
                     }
                 ]
+            },
+            {
+                model: Comment,
+                as: 'comentarios'
             }
         ]
     });
