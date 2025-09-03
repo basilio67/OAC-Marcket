@@ -49,8 +49,22 @@ async function requireAdmin(req, res, next) {
     }
 }
 
+// Curtidas em memória (substitua por banco depois)
+const curtidas = {}; // { [produtoId]: Set de userIds ou cookies }
+
+// Middleware para identificar visitante por cookie
+function getUserLikeId(req, res, next) {
+    if (!req.cookies) req.cookies = {};
+    if (!req.cookies.likeId) {
+        const likeId = Math.random().toString(36).substring(2) + Date.now();
+        res.cookie('likeId', likeId, { maxAge: 365*24*60*60*1000 }); // 1 ano
+        req.cookies.likeId = likeId;
+    }
+    next();
+}
+
 // Página inicial
-router.get('/', async (req, res) => {
+router.get('/', getUserLikeId, async (req, res) => {
     // Busca os 10 produtos mais recentes
     const produtosRecentes = await Product.findAll({
         order: [['createdAt', 'DESC']],
@@ -61,6 +75,13 @@ router.get('/', async (req, res) => {
             }
         ],
         limit: 10
+    });
+    // Adiciona info de curtidas
+    const likeId = req.cookies.likeId;
+    produtosRecentes.forEach(produto => {
+        const set = curtidas[produto.id] || new Set();
+        produto.dataValues.curtidas = set.size;
+        produto.dataValues.curtido = set.has(likeId);
     });
     res.render('home', { produtosRecentes });
 });
@@ -202,7 +223,7 @@ router.post('/loja/:id/produto/criar', requireSeller, upload.single('imagem'), a
 });
 
 // Página pública de todos os produtos
-router.get('/produtos', async (req, res) => {
+router.get('/produtos', getUserLikeId, async (req, res) => {
     const produtos = await Product.findAll({
         include: [
             {
@@ -216,6 +237,13 @@ router.get('/produtos', async (req, res) => {
                 ]
             }
         ]
+    });
+    // Adiciona info de curtidas
+    const likeId = req.cookies.likeId;
+    produtos.forEach(produto => {
+        const set = curtidas[produto.id] || new Set();
+        produto.dataValues.curtidas = set.size;
+        produto.dataValues.curtido = set.has(likeId);
     });
     res.render('produtos_publicos', { produtos });
 });
@@ -305,6 +333,23 @@ router.post('/produto/:id/remover-destaque', requireAdmin, async (req, res) => {
     produto.destaque = false;
     await produto.save();
     res.redirect('/admin');
+});
+
+// Curtir produto
+router.post('/produto/:id/curtir', getUserLikeId, (req, res) => {
+    const produtoId = req.params.id;
+    const likeId = req.cookies.likeId;
+    if (!curtidas[produtoId]) curtidas[produtoId] = new Set();
+    curtidas[produtoId].add(likeId);
+    res.json({ ok: true, curtidas: curtidas[produtoId].size });
+});
+
+// Descurtir produto
+router.post('/produto/:id/descurtir', getUserLikeId, (req, res) => {
+    const produtoId = req.params.id;
+    const likeId = req.cookies.likeId;
+    if (curtidas[produtoId]) curtidas[produtoId].delete(likeId);
+    res.json({ ok: true, curtidas: curtidas[produtoId] ? curtidas[produtoId].size : 0 });
 });
 
 // Páginas obrigatórias

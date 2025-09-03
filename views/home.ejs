@@ -77,9 +77,9 @@
             padding: 0;
             margin: 0;
         }
+        /* Novo gradiente só para os botões do menu inferior */
         nav a {
             color: #fff;
-            /* Novo gradiente só para os botões do menu inferior */
             background: linear-gradient(135deg, #a18fff 0%, #7e57c2 100%);
             padding: 12px 32px;
             border-radius: 8px;
@@ -238,6 +238,14 @@
                                 <span class="preco">R$ <%= produto.preco %></span><br>
                                 <span><%= produto.descricao %></span><br>
                                 <span style="font-size:0.93em;color:#888;">Loja: <%= produto.loja ? produto.loja.nome : 'N/A' %></span>
+                                <div style="margin-top:6px;">
+                                    <button class="like-btn" 
+                                        data-id="<%= produto.id %>" 
+                                        style="background:<%= produto.curtido ? '#e57373' : '#eee' %>;color:#7e57c2;border:none;border-radius:50%;width:32px;height:32px;font-size:1.2em;cursor:pointer;">
+                                        <%= produto.curtido ? '❤️' : '🤍' %>
+                                    </button>
+                                    <span class="like-count" style="color:#7e57c2;font-weight:600;margin-left:4px;"><%= produto.curtidas || 0 %></span>
+                                </div>
                             </div>
                         </div>
                     <% }) %>
@@ -297,6 +305,26 @@
                 current = (current + 1) % items.length;
                 showItem(current);
             }, 4000);
+        });
+        // Curtidas AJAX
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.like-btn').forEach(function(btn) {
+                btn.onclick = function(e) {
+                    e.preventDefault();
+                    const id = btn.getAttribute('data-id');
+                    const isLiked = btn.textContent === '❤️';
+                    fetch('/produto/' + id + (isLiked ? '/descurtir' : '/curtir'), {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        btn.textContent = isLiked ? '🤍' : '❤️';
+                        btn.style.background = isLiked ? '#eee' : '#e57373';
+                        btn.nextElementSibling.textContent = data.curtidas;
+                    });
+                };
+            });
         });
     </script>
 </body>

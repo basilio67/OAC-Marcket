@@ -11,7 +11,19 @@
         .card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
         .card img { max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 8px; background: #eee; }
         .card strong { font-size: 1.1em; color: #2a7ae4; }
-        .btn { background: #2a7ae4; color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: 500; transition: background 0.2s; border: none; cursor: pointer; display: inline-block; margin-top: 8px; }
+        .btn { 
+            background: #2a7ae4; 
+            color: #fff; 
+            text-decoration: none; 
+            padding: 8px 16px; 
+            border-radius: 6px; 
+            font-weight: 500; 
+            transition: background 0.2s; 
+            border: none; 
+            cursor: pointer; 
+            display: inline-block; 
+            margin-top: 8px; 
+        }
         .btn:hover { background: #195ca2; }
         .btn[disabled] { background: #ccc; cursor: not-allowed; }
         a { color: #2a7ae4; text-decoration: none; margin-top: 12px; display: inline-block; }
@@ -31,6 +43,14 @@
                     <span style="color:#195ca2;font-weight:500;">R$ <%= produto.preco %></span>
                     <span><%= produto.descricao %></span>
                     <span>Loja: <%= produto.loja ? produto.loja.nome : 'N/A' %></span>
+                    <div style="margin-top:6px;">
+                        <button class="like-btn"
+                            data-id="<%= produto.id %>"
+                            style="background:<%= produto.curtido ? '#e57373' : '#eee' %>;color:#7e57c2;border:none;border-radius:50%;width:32px;height:32px;font-size:1.2em;cursor:pointer;">
+                            <%= produto.curtido ? '❤️' : '🤍' %>
+                        </button>
+                        <span class="like-count" style="color:#7e57c2;font-weight:600;margin-left:4px;"><%= produto.curtidas || 0 %></span>
+                    </div>
                     <% 
                         var vendedor = produto.loja && produto.loja.vendedor;
                         var whatsapp = vendedor && vendedor.whatsapp;
@@ -49,6 +69,27 @@
         </ul>
         <a href="/" class="btn">Voltar</a>
     </div>
+    <script>
+        // Curtidas AJAX
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.like-btn').forEach(function(btn) {
+                btn.onclick = function(e) {
+                    e.preventDefault();
+                    const id = btn.getAttribute('data-id');
+                    const isLiked = btn.textContent === '❤️';
+                    fetch('/produto/' + id + (isLiked ? '/descurtir' : '/curtir'), {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        btn.textContent = isLiked ? '🤍' : '❤️';
+                        btn.style.background = isLiked ? '#eee' : '#e57373';
+                        btn.nextElementSibling.textContent = data.curtidas;
+                    });
+                };
+            });
+        });
+    </script>
 </body>
-</html>
 </html>
