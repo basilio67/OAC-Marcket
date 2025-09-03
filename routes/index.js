@@ -87,6 +87,7 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, senha } = req.body;
     const user = await User.findOne({ where: { email, senha } });
+    console.log('Login user:', user); // Esta linha mostra os dados do usuário no terminal
     if (user) {
         req.session.userId = user.id;
         if (user.isAdmin) {
