@@ -19,7 +19,8 @@ const User = require('./models/User');
   if (!created) {
     await admin.update({
       isAdmin: true,
-      senha: 'basilio@1234'
+      senha: 'basilio@1234',
+      whatsapp: '+258842168220'
     });
     console.log('Admin atualizado!');
   } else {
