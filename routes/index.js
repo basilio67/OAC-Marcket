@@ -85,7 +85,7 @@ async function notificarVendedor(produto, assunto, mensagem) {
         from: process.env.NOTIFY_EMAIL_USER,
         to: loja.vendedor.email,
         subject: assunto,
-        text: mensagem
+        text: mensagem + `\n\nAcesse o OAC Market: https://oac-marcket.onrender.com`
     });
 }
 
@@ -255,10 +255,13 @@ router.post('/produto/:id/comentar', async (req, res) => {
         autor: autor || 'Anônimo',
         texto
     });
-    // Notifica o vendedor
+    // Mensagem personalizada
     const produto = await Product.findByPk(produtoId);
-    notificarVendedor(produto, 'Novo comentário no seu produto',
-        `Seu produto "${produto.nome}" recebeu um novo comentário de ${autor || 'Anônimo'}: "${texto}"`);
+    notificarVendedor(
+        produto,
+        `Novo comentário no seu produto "${produto.nome}"`,
+        `Olá! Seu produto "${produto.nome}" recebeu um novo comentário de ${autor || 'Anônimo'}:\n"${texto}"\n\nVeja mais detalhes acessando sua loja no OAC Market!`
+    );
     res.redirect('back');
 });
 
@@ -388,9 +391,12 @@ router.post('/produto/:id/curtir', getUserLikeId, async (req, res) => {
         produto._curtidasSet.add(likeId);
         produto.curtidas += 1;
         await produto.save();
-        // Notifica o vendedor
-        notificarVendedor(produto, 'Seu produto foi curtido!',
-            `Seu produto "${produto.nome}" recebeu uma nova curtida no OAC Market!`);
+        // Mensagem personalizada
+        notificarVendedor(
+            produto,
+            `Seu produto "${produto.nome}" recebeu uma curtida!`,
+            `Olá! Seu produto "${produto.nome}" acabou de receber uma nova curtida no OAC Market.\n\nVeja como está o interesse no seu produto acessando sua loja!`
+        );
     }
     res.json({ ok: true, curtidas: produto.curtidas });
 });
