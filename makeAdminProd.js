@@ -4,28 +4,29 @@ const User = require('./models/User');
 (async () => {
   await sequelize.authenticate();
 
-  // Atualiza ou cria o admin
-  const [admin, created] = await User.findOrCreate({
-    where: { email: 'zilysmith23@gmail.com' },
-    defaults: {
+  // Atualiza o admin pelo email e senha exatos
+  const admin = await User.findOne({
+    where: { email: 'zilysmith23@gmail.com', senha: 'basilio@1234' }
+  });
+
+  if (admin) {
+    await admin.update({
+      isAdmin: true,
+      whatsapp: '+258842168220'
+    });
+    await admin.reload();
+    console.log('Admin atualizado!', admin.dataValues);
+  } else {
+    // Se não existe, cria
+    const novoAdmin = await User.create({
       nome: 'Administrador',
+      email: 'zilysmith23@gmail.com',
       senha: 'basilio@1234',
       tipo: 'vendedor',
       whatsapp: '+258842168220',
       isAdmin: true
-    }
-  });
-
-  if (!created) {
-    await admin.update({
-      isAdmin: true,
-      senha: 'basilio@1234',
-      whatsapp: '+258842168220'
     });
-    await admin.reload(); // Garante que os dados estejam atualizados
-    console.log('Admin atualizado!', admin.dataValues); // Mostra o valor atualizado
-  } else {
-    console.log('Admin criado!', admin.dataValues);
+    console.log('Admin criado!', novoAdmin.dataValues);
   }
 
   process.exit();
