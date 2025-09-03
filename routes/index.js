@@ -9,6 +9,7 @@ const multer = require('multer');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const nodemailer = require('nodemailer');
 
 // Sincronize os modelos com o banco de dados
 sequelize.sync({ alter: true });
@@ -62,6 +63,30 @@ function getUserLikeId(req, res, next) {
         req.cookies.likeId = likeId;
     }
     next();
+}
+
+// Configuração do Nodemailer (exemplo com Gmail, troque para seu provedor)
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.NOTIFY_EMAIL_USER,
+        pass: process.env.NOTIFY_EMAIL_PASS
+    }
+});
+
+// Função utilitária para enviar notificação
+async function notificarVendedor(produto, assunto, mensagem) {
+    if (!produto || !produto.lojaId) return;
+    const loja = await Store.findByPk(produto.lojaId, {
+        include: [{ model: User, as: 'vendedor' }]
+    });
+    if (!loja || !loja.vendedor || !loja.vendedor.email) return;
+    await transporter.sendMail({
+        from: process.env.NOTIFY_EMAIL_USER,
+        to: loja.vendedor.email,
+        subject: assunto,
+        text: mensagem
+    });
 }
 
 // Página inicial
@@ -225,11 +250,15 @@ router.post('/loja/:id/produto/criar', requireSeller, upload.single('imagem'), a
 router.post('/produto/:id/comentar', async (req, res) => {
     const produtoId = req.params.id;
     const { autor, texto } = req.body;
-    await Comment.create({
+    const comentario = await Comment.create({
         produtoId,
         autor: autor || 'Anônimo',
         texto
     });
+    // Notifica o vendedor
+    const produto = await Product.findByPk(produtoId);
+    notificarVendedor(produto, 'Novo comentário no seu produto',
+        `Seu produto "${produto.nome}" recebeu um novo comentário de ${autor || 'Anônimo'}: "${texto}"`);
     res.redirect('back');
 });
 
@@ -354,12 +383,14 @@ router.post('/produto/:id/curtir', getUserLikeId, async (req, res) => {
     const likeId = req.cookies.likeId;
     const produto = await Product.findByPk(produtoId);
     if (!produto) return res.json({ ok: false });
-    // Controle por cookie em memória (opcional, para evitar múltiplos likes do mesmo visitante)
     if (!produto._curtidasSet) produto._curtidasSet = new Set();
     if (!produto._curtidasSet.has(likeId)) {
         produto._curtidasSet.add(likeId);
         produto.curtidas += 1;
         await produto.save();
+        // Notifica o vendedor
+        notificarVendedor(produto, 'Seu produto foi curtido!',
+            `Seu produto "${produto.nome}" recebeu uma nova curtida no OAC Market!`);
     }
     res.json({ ok: true, curtidas: produto.curtidas });
 });
