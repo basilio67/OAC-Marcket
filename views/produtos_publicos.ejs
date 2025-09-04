@@ -44,7 +44,7 @@
                     <span><%= produto.descricao %></span>
                     <span>Loja: <%= produto.loja ? produto.loja.nome : 'N/A' %></span>
                     <% if (produto.loja && produto.loja.id) { %>
-                        <a class="btn" href="/loja/<%= produto.loja.id %>?public=1" style="margin-top:6px;">Ver loja</a>
+                        <a href="/loja/<%= produto.loja.id %>?public=1" style="color:#2a7ae4;text-decoration:underline;font-weight:500;margin-left:6px;">ver loja</a>
                     <% } %>
                     <div style="margin-top:6px;">
                         <button class="like-btn"
