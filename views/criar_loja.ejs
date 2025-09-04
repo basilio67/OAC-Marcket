@@ -18,9 +18,10 @@
 <body>
     <div class="container">
         <h2>Criar Loja</h2>
-        <form method="POST" action="/loja/criar">
+        <form method="POST" action="/loja/criar" enctype="multipart/form-data">
             <input type="text" name="nome" placeholder="Nome da loja" required />
             <textarea name="descricao" placeholder="Descrição" required></textarea>
+            <input type="file" name="imagemPerfil" accept="image/*" />
             <button type="submit">Criar Loja</button>
         </form>
         <a href="/">Voltar</a>

@@ -10,6 +10,10 @@ const Store = sequelize.define('Store', {
   descricao: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  imagemPerfil: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 });
 

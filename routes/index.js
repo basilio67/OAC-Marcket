@@ -169,17 +169,18 @@ router.get('/loja/criar', requireSeller, async (req, res) => {
     res.render('criar_loja');
 });
 
-router.post('/loja/criar', requireSeller, async (req, res) => {
+router.post('/loja/criar', requireSeller, upload.single('imagemPerfil'), async (req, res) => {
     const { nome, descricao } = req.body;
-    // Se já existe loja, redireciona para ela
     let loja = await Store.findOne({ where: { vendedorId: req.session.userId } });
     if (loja) {
         return res.redirect('/loja/' + loja.id);
     }
+    const imagemPerfil = req.file ? req.file.path : '';
     loja = await Store.create({
         nome,
         descricao,
         vendedorId: req.session.userId,
+        imagemPerfil
     });
     res.redirect('/loja/' + loja.id);
 });

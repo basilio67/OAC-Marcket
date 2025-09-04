@@ -92,6 +92,9 @@
 </head>
 <body>
     <div class="container">
+        <% if (loja.imagemPerfil) { %>
+            <img src="<%= loja.imagemPerfil %>" alt="Imagem da loja" style="width:120px;height:120px;object-fit:cover;border-radius:50%;margin-bottom:12px;">
+        <% } %>
         <h2><%= loja.nome %></h2>
         <p><%= loja.descricao %></p>
 
@@ -126,9 +129,6 @@
     </div>
 </body>
 </html>
-                <li class="card">
-                    <% if (produto.imagem) { %>
-                        <img src="<%= produto.imagem %>" alt="Imagem do produto">
                     <% } %>
                     <strong><%= produto.nome %></strong>
                     <span style="color:#195ca2;font-weight:500;">R$ <%= produto.preco %></span>
