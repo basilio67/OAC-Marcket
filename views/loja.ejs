@@ -97,7 +97,7 @@
 
         <nav>
             <ul>
-                <% if (loja && loja.id) { %>
+                <% if (!visitante && loja && loja.id) { %>
                     <li><a href="/loja/<%= loja.id %>/produto/criar" class="btn">Adicionar Produto</a></li>
                     <li><a href="/loja/<%= loja.id %>/editar" class="btn">Editar Loja</a></li>
                 <% } %>
@@ -115,17 +115,17 @@
                     <strong><%= produto.nome %></strong>
                     <span style="color:#195ca2;font-weight:500;">MT <%= produto.preco %></span>
                     <span><%= produto.descricao %></span>
+                    <% if (!visitante) { %>
                     <form method="POST" action="/produto/<%= produto.id %>/excluir" style="margin-top:8px;">
                         <button type="submit" class="btn" style="background:#e74c3c;">Excluir Produto</button>
                     </form>
+                    <% } %>
                 </li>
             <% }) %>
         </ul>
     </div>
 </body>
 </html>
-        <ul class="card-list">
-            <% produtos.forEach(function(produto) { %>
                 <li class="card">
                     <% if (produto.imagem) { %>
                         <img src="<%= produto.imagem %>" alt="Imagem do produto">

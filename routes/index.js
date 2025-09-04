@@ -187,6 +187,18 @@ router.post('/loja/criar', requireSeller, async (req, res) => {
 // Mensagens em memória (substitua por banco depois)
 const mensagens = {};
 
+// Página pública da loja (visualização somente)
+router.get('/loja/:id', async (req, res, next) => {
+    if (req.query.public === '1') {
+        const loja = await Store.findByPk(req.params.id, { include: [{ model: User, as: 'vendedor' }] });
+        if (!loja) return res.redirect('/');
+        const produtos = await Product.findAll({ where: { lojaId: loja.id } });
+        // Não mostra botões de edição/exclusão para visitantes
+        return res.render('loja', { loja, produtos, mensagens: [] , visitante: true });
+    }
+    next();
+});
+
 // Página da loja (exibe produtos e mensagens)
 router.get('/loja/:id', requireSeller, async (req, res) => {
     const loja = await Store.findByPk(req.params.id, { include: [{ model: User, as: 'vendedor' }] });
