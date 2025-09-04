@@ -126,19 +126,6 @@
                 </li>
             <% }) %>
         </ul>
-    </div>
-</body>
-</html>
-                    <% } %>
-                    <strong><%= produto.nome %></strong>
-                    <span style="color:#195ca2;font-weight:500;">R$ <%= produto.preco %></span>
-                    <span><%= produto.descricao %></span>
-                    <form method="POST" action="/produto/<%= produto.id %>/excluir" style="margin-top:8px;">
-                        <button type="submit" class="btn" style="background:#e74c3c;">Excluir Produto</button>
-                    </form>
-                </li>
-            <% }) %>
-        </ul>
 
         <h3>Mensagens Recebidas</h3>
         <ul class="msg-list">
