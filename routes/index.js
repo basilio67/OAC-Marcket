@@ -209,7 +209,7 @@ router.get('/loja/:id', requireSeller, async (req, res) => {
     }
     const produtos = await Product.findAll({ where: { lojaId: loja.id } });
     const msgs = Array.isArray(mensagens[loja.id]) ? mensagens[loja.id] : [];
-    res.render('loja', { loja, produtos, mensagens: msgs });
+    res.render('loja', { loja, produtos, mensagens: msgs, visitante: false });
 });
 
 // Cadastro de produto (apenas vendedores cadastrados)
