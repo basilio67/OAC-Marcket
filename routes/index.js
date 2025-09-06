@@ -208,7 +208,7 @@ router.get('/loja/:id', requireSeller, async (req, res) => {
         return res.redirect('/');
     }
     const produtos = await Product.findAll({ where: { lojaId: loja.id } });
-    const msgs = mensagens[loja.id] || [];
+    const msgs = Array.isArray(mensagens[loja.id]) ? mensagens[loja.id] : [];
     res.render('loja', { loja, produtos, mensagens: msgs });
 });
 
