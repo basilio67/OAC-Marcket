@@ -20,11 +20,21 @@ app.use(session({
     saveUninitialized: false,
 }));
 
+let accessCount = 0;
+app.use((req, res, next) => {
+    accessCount++;
+    req.app.set('accessCount', accessCount);
+    next();
+});
+
 // Rotas
 app.use('/', routes);
 
 // Inicialização do servidor
 const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

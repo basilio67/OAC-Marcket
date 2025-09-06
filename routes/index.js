@@ -107,7 +107,7 @@ router.get('/', getUserLikeId, async (req, res) => {
         produto.dataValues.curtidas = produto.curtidas || 0;
         produto.dataValues.curtido = produto._curtidasSet && produto._curtidasSet.has(likeId);
     });
-    res.render('home', { produtosRecentes });
+    res.render('home', { produtosRecentes }); // Remova accessCount
 });
 
 // Cadastro de usuário
