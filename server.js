@@ -24,6 +24,7 @@ let accessCount = 0;
 app.use((req, res, next) => {
     accessCount++;
     req.app.set('accessCount', accessCount);
+    console.log(`Acessos ao site: ${accessCount}`); // <-- Veja aqui no console
     next();
 });
 
